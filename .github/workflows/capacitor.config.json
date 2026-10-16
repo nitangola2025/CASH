@@ -1,0 +1,6 @@
+{
+  "appId": "com.dailycash.control",
+  "appName": "Cash Flow",
+  "webDir": "www",
+  "android": { "allowMixedContent": false }
+}
