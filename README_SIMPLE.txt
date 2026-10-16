@@ -1,16 +1,16 @@
-CASH FLOW - OFFLINE APP (5 files + this note)
+APK BUILD - SIMPLE STEPS
+This package needs only TWO things in your GitHub repository (CASH-FLOW):
+  1) index.html          (in the main list of files, NOT inside a folder)
+  2) the build file at   .github/workflows/main.yml
 
-FILES YOU MUST UPLOAD (all 5, from the unzipped folder):
-  index.html   manifest.json   sw.js   icon-192.png   icon-512.png
-(README_SIMPLE.txt is only this note. Uploading it is not needed.)
-
-STEP 1  Unzip this zip on the computer (right-click, Extract all).
-STEP 2  Go to github.com/nitangola2025/CASH-FLOW
-        Add file > Upload files > drag the 5 files (NOT a folder) > Commit changes.
-STEP 3  Settings > Pages > Branch: main, folder: / (root) > Save.
-        Wait 2 minutes. The address will be shown at the top of that page.
-STEP 4  On the Android phone open that address in Chrome (with internet, one time).
-        Menu (three dots) > Add to Home screen / Install app.
-STEP 5  Switch internet off and open the Cash Flow icon. It works offline.
-
-ALWAYS: File > Backup data, and send the backup file to yourself.
+HOW:
+A. Unzip this zip.
+B. In the repository: Add file > Upload files > drag ONLY index.html > Commit changes.
+C. Open the file main.yml.txt with Notepad and copy ALL the text.
+D. In the repository: Add file > Create new file.
+   In the name box type exactly:  .github/workflows/main.yml
+   (when you type each "/" a folder is made). Paste the text. Commit changes.
+   If main.yml already exists, open it, press the pencil, delete everything, paste this text, commit.
+E. Actions tab > Build Android APK > Run workflow. Wait 5-10 minutes for the green tick.
+F. Open the finished run (click its name), scroll to the bottom: Artifacts > CashFlow-apk.
+G. Unzip it: app-debug.apk is the Android app. Send it to the phone and install it.

@@ -5,7 +5,7 @@ on:
     branches: [main, master]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,6 +15,33 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - name: Prepare the app files
+        run: |
+          test -f index.html || (echo "ERROR: index.html is missing in the repository main list" && exit 1)
+          mkdir -p www
+          cp index.html www/index.html
+          cat > package.json <<'EOF'
+          {
+            "name": "daily-cash-flow-control",
+            "version": "1.0.0",
+            "private": true,
+            "dependencies": {
+              "@capacitor/android": "^6.1.2",
+              "@capacitor/cli": "^6.1.2",
+              "@capacitor/core": "^6.1.2",
+              "@capacitor/filesystem": "^6.0.1",
+              "@capacitor/share": "^6.0.2"
+            }
+          }
+          EOF
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.dailycash.control",
+            "appName": "Cash Flow",
+            "webDir": "www"
+          }
+          EOF
+          ls -la . www
       - name: Install packages
         run: npm install
       - name: Create the Android project

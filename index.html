@@ -985,6 +985,16 @@ async function saveFile(name, blob){
     catch (e) { if (e && e.code === 'declined') return; toast('The file could not be saved (' + ((e && e.code) || 'error') + ').'); }
     return;
   }
+  const cap = window.Capacitor;
+  if (cap && cap.isNativePlatform && cap.isNativePlatform() && cap.Plugins && cap.Plugins.Filesystem) {
+    try {
+      const b64 = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(',')[1]); fr.onerror = rej; fr.readAsDataURL(blob); });
+      const r = await cap.Plugins.Filesystem.writeFile({path: name, data: b64, directory: 'CACHE'});
+      if (cap.Plugins.Share) await cap.Plugins.Share.share({title: name, url: r.uri, dialogTitle: 'Save or send ' + name});
+      toast('File ready: ' + name);
+    } catch (e) { if (!(e && /cancel/i.test(String(e.message || e)))) toast('The file could not be saved.'); }
+    return;
+  }
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
