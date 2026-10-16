@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Daily Cash Flow Control</title><meta name="theme-color" content="#1c5567"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><style>html,body{margin:0}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Daily Cash Flow Control</title><meta name="theme-color" content="#1c5567"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><style>html,body{margin:0}</style></head><body>
 <style>
 /* Concept: a shop cash book on a phone. Cool ledger paper, petrol-blue ink for actions,
    green for money in, red for money out. Numbers in a mono face so columns line up. */
@@ -983,16 +983,6 @@ async function saveFile(name, blob){
   if (dl) {
     try { await dl.save({filename:name, data:blob}); toast('Saved: ' + name); }
     catch (e) { if (e && e.code === 'declined') return; toast('The file could not be saved (' + ((e && e.code) || 'error') + ').'); }
-    return;
-  }
-  const cap = window.Capacitor;
-  if (cap && cap.isNativePlatform && cap.isNativePlatform() && cap.Plugins && cap.Plugins.Filesystem) {
-    try {
-      const b64 = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(',')[1]); fr.onerror = rej; fr.readAsDataURL(blob); });
-      const r = await cap.Plugins.Filesystem.writeFile({path: name, data: b64, directory: 'CACHE'});
-      if (cap.Plugins.Share) await cap.Plugins.Share.share({title: name, url: r.uri, dialogTitle: 'Save or send ' + name});
-      toast('File ready: ' + name);
-    } catch (e) { if (!(e && /cancel/i.test(String(e.message || e)))) toast('The file could not be saved.'); }
     return;
   }
   const a = document.createElement('a');
